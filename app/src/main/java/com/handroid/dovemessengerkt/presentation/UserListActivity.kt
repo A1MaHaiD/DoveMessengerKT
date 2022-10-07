@@ -1,6 +1,5 @@
 package com.handroid.dovemessengerkt.presentation
 
-import com.handroid.dovemessengerkt.presentation.AuthenticationActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.handroid.dovemessengerkt.R
-import com.handroid.dovemessengerkt.User
+import com.handroid.dovemessengerkt.domain.User
 import com.handroid.dovemessengerkt.UserAdapter
 import java.util.ArrayList
 
@@ -45,10 +44,10 @@ class UserListActivity : AppCompatActivity() {
             usersChildEventListener = object : ChildEventListener() {
                 fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val user: User = snapshot.getValue(User::class.java)
-                    if (!user.getId().equals(auth.getCurrentUser().getUid())) {
+                    if (!user.getId().equals(auth?.getCurrentUser()?.getUid())) {
                         user.setAvatarMockUpResource(R.drawable.ic_baseline_person_24)
                         userArrayList!!.add(user)
-                        userAdapter.notifyDataSetChanged()
+                        userAdapter?.notifyDataSetChanged()
                     }
                 }
 
@@ -71,7 +70,7 @@ class UserListActivity : AppCompatActivity() {
             )
         )
         userLayoutManager = LinearLayoutManager(this)
-        userAdapter = UserAdapter(userArrayList)
+        userAdapter = userArrayList?.let { UserAdapter(it) }
         usersRecyclerView.setLayoutManager(userLayoutManager)
         usersRecyclerView.setAdapter(userAdapter)
         userAdapter.setOnUserClickListener(object : UserAdapter.OnUserClickListener {

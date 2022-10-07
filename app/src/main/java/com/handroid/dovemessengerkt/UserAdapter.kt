@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.handroid.dovemessengerkt.UserAdapter.UserViewHolder
+import com.handroid.dovemessengerkt.domain.User
 import java.util.ArrayList
 
 class UserAdapter(private val user: ArrayList<User>) : RecyclerView.Adapter<UserViewHolder?>() {

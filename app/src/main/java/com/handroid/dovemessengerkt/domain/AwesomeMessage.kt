@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt
+package com.handroid.dovemessengerkt.domain
 
 data class AwesomeMessage(
     val text: String,

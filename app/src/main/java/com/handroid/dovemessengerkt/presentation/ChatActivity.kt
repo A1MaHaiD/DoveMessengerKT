@@ -1,6 +1,5 @@
 package com.handroid.dovemessengerkt.presentation
 
-import com.handroid.dovemessengerkt.presentation.AuthenticationActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,34 +9,29 @@ import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.handroid.dovemessengerkt.AwesomeMessage
 import com.handroid.dovemessengerkt.AwesomeMessageAdapter
 import com.handroid.dovemessengerkt.R
-import com.handroid.dovemessengerkt.User
+import com.handroid.dovemessengerkt.databinding.ActivityChatBinding
+import com.handroid.dovemessengerkt.domain.AwesomeMessage
+import com.handroid.dovemessengerkt.domain.User
 
 
 class ChatActivity : AppCompatActivity() {
-    private var messageListView: ListView? = null
+
+    private val binding by lazy {
+        ActivityChatBinding.inflate(layoutInflater)
+    }
     private var adapter: AwesomeMessageAdapter? = null
-    private var progressBar: ProgressBar? = null
-    private var sendImageButton: ImageButton? = null
-    private var sendMessageButton: Button? = null
-    private var messageEditText: EditText? = null
     private var userName: String? = null
     private var recipientUserId: String? = null
     private var recipientUserName: String? = null
@@ -51,7 +45,7 @@ class ChatActivity : AppCompatActivity() {
     private var imagesStorageReference: StorageReference? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat)
+        setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
         val intent = intent
         if (intent != null) {
@@ -62,45 +56,42 @@ class ChatActivity : AppCompatActivity() {
         title = "Chat with $recipientUserName"
         database = FirebaseDatabase.getInstance()
         imagesStorage = FirebaseStorage.getInstance()
-        messagesDatabaseReference = database.getReference().child("message")
-        usersDatabaseReference = database.getReference().child("user")
-        imagesStorageReference = imagesStorage.getReference().child("chat_images")
-        progressBar = findViewById(R.id.progressBar)
-        sendImageButton = findViewById(R.id.sendPhotoButton)
-        sendMessageButton = findViewById(R.id.sendMessageButton)
-        messageEditText = findViewById(R.id.messageEditText)
-        messageListView = findViewById(R.id.messageListView)
+        messagesDatabaseReference = database?.reference?.child("message")
+        usersDatabaseReference = database?.reference?.child("user")
+        imagesStorageReference = imagesStorage?.reference?.child("chat_images")
         val awesomeMessageList: List<AwesomeMessage> = ArrayList()
         adapter = AwesomeMessageAdapter(
             this,
             R.layout.message_item, awesomeMessageList
         )
-        messageListView.setAdapter(adapter)
-        progressBar.setVisibility(ProgressBar.INVISIBLE)
-        messageEditText.addTextChangedListener(object : TextWatcher {
+        binding.messageListView.setAdapter(adapter)
+        binding.progressBar.setVisibility(ProgressBar.INVISIBLE)
+        binding.messageEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                sendMessageButton.setEnabled(s.toString().trim { it <= ' ' }.length > 0)
+                binding.sendMessageButton.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable) {}
         })
-        messageEditText.setFilters(
+        binding.messageEditText.setFilters(
             arrayOf<InputFilter>(
                 LengthFilter(500)
             )
         )
-        sendMessageButton.setOnClickListener(View.OnClickListener {
-            val message = AwesomeMessage()
-            message.setText(messageEditText.getText().toString())
-            message.setName(userName)
-            message.setSender(auth.getCurrentUser().getUid())
-            message.setRecipient(recipientUserId)
-            message.setImageUrl(null)
-            messagesDatabaseReference.push().setValue(message)
-            messageEditText.setText("")
-        })
-        sendImageButton.setOnClickListener(View.OnClickListener {
+        binding.sendMessageButton.setOnClickListener {
+            val message = AwesomeMessage(
+                text = binding.messageEditText.text.toString(),
+                name = userName.toString(),
+                sender = auth?.currentUser?.uid.toString(),
+                recipient = recipientUserId.toString(),
+                imageUrl = "",
+                isMine = false
+            )
+            messagesDatabaseReference?.push()?.setValue(message)
+            binding.messageEditText.setText("")
+        }
+        binding.sendPhotoButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/jpeg"
             intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true)
@@ -108,12 +99,12 @@ class ChatActivity : AppCompatActivity() {
                 Intent.createChooser(intent, "Choose an image"),
                 RC_IMAGE_PICKER
             )
-        })
+        }
         usersChildEventListener = object : ChildEventListener() {
             fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user: User = snapshot.getValue(User::class.java)
-                if (user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                    userName = user.getName()
+                if (user.id == FirebaseAuth.getInstance().currentUser?.uid) {
+                    userName = user.name
                 }
             }
 
@@ -129,15 +120,15 @@ class ChatActivity : AppCompatActivity() {
                 previousChildName: String?
             ) {
                 val message: AwesomeMessage = snapshot.getValue(AwesomeMessage::class.java)
-                if (message.getSender().equals(auth.getCurrentUser().getUid())
-                    && message.getRecipient().equals(recipientUserId)
+                if (message.sender == auth?.currentUser?.uid
+                    && message.recipient == recipientUserId
                 ) {
-                    message.setMine(true)
+                    message.isMine = true
                     adapter.add(message)
-                } else if (message.getRecipient().equals(auth.getCurrentUser().getUid())
-                    && message.getSender().equals(recipientUserId)
+                } else if (message.recipient == auth?.currentUser?.uid
+                    && message.sender == recipientUserId
                 ) {
-                    message.setMine(false)
+                    message.isMine = false
                     adapter.add(message)
                 }
             }

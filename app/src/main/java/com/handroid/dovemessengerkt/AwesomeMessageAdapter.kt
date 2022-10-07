@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.handroid.dovemessengerkt.domain.AwesomeMessage
 
 class AwesomeMessageAdapter(
     context: Activity,
@@ -42,11 +43,16 @@ class AwesomeMessageAdapter(
         }
         val isText = imageUrl == null
         if (isText) {
-            viewHolder.messageTextView.setVisibility(View.VISIBLE)
-            viewHolder.photoImageView.visibility = View.GONE
-            viewHolder.userNameTextView.setVisibility(View.VISIBLE)
-            viewHolder.userNameTextView.setText(name)
-            viewHolder.messageTextView.setText(text)
+            viewHolder.apply {
+                messageTextView.visibility = View.VISIBLE
+                photoImageView.visibility = View.GONE
+                userNameTextView.visibility = View.VISIBLE
+                userNameTextView.setText(name)
+                messageTextView.setText(text)
+            }
+
+            }
+
         } else {
             viewHolder.messageTextView.setVisibility(View.GONE)
             viewHolder.photoImageView.visibility = View.VISIBLE
