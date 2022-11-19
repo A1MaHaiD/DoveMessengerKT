@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DoveMessengerKT</string>
     <string name="user_name">User name</string>
     <string name="todo">TODO</string>
     <string name="send">Send</string>
