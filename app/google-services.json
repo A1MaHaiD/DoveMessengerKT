@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "528046255330",
+    "project_id": "dovemessagnerkt",
+    "storage_bucket": "dovemessagnerkt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528046255330:android:2dea217524650b092442bb",
+        "android_client_info": {
+          "package_name": "com.handroid.dovemessengerkt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528046255330-56s5jf2bo0vs6u7pqto5sfmg2a42n0dh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.handroid.dovemessengerkt",
+            "certificate_hash": "3fbd3b50a586bfd0dcef0f241dbd1bf73dcc9fdd"
+          }
+        },
+        {
+          "client_id": "528046255330-7io7e4h26nn03sjhqcvokbtdnuv4fkjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCPupq4UJu4SWoymfWhiDees51wxVG8qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528046255330-7io7e4h26nn03sjhqcvokbtdnuv4fkjn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
