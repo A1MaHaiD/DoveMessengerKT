@@ -18,9 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun instance(){
         val user:MutableMap<String,Any> = HashMap()
-        user["first"] = "Jaroslawa"
-        user["last"] = "Tabaljuk"
-        user["born"] = 1994
+        user["first"] = "Switlana"
+        user["last"] = "Korzun"
+        user["born"] = 1999
         FirebaseFirestore.getInstance().collection("users")
             .add(user)
             .addOnSuccessListener { documentReference ->
@@ -32,6 +32,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val LOG_TAG = "TAG"
+        const val LOG_TAG = "LOG_TAG"
     }
 }
