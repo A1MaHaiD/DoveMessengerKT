@@ -65,7 +65,6 @@
         android:text="Tap To Log In"
         android:layout_gravity="center_horizontal"
         android:clickable="true"
-        android:onClick="toggleLoginMode"
         android:layout_marginTop="8dp"
         android:textSize="20sp"/>
 </LinearLayout>
