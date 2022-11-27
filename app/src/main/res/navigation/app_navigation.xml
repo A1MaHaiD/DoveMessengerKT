@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/noteListingFragment"
-        android:name="com.handroid.dovemessengerkt.presentation.view.note.NoteListingFragment"
+        android:name="com.handroid.dovemessengerkt.presentation.view.fragment.NoteListingFragment"
         android:label="fragment_note_listing"
         tools:layout="@layout/fragment_note_listing" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/noteDetailFragment"
-        android:name="com.handroid.dovemessengerkt.presentation.view.note.NoteDetailFragment"
+        android:name="com.handroid.dovemessengerkt.presentation.view.fragment.NoteDetailFragment"
         android:label="fragment_note_detail"
         tools:layout="@layout/fragment_note_detail" />
 </navigation>
