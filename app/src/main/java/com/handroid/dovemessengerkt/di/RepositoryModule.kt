@@ -1,5 +1,7 @@
 package com.handroid.dovemessengerkt.di
 
+import com.handroid.dovemessengerkt.data.repository.NoteRepository
+import com.handroid.dovemessengerkt.data.repository.NoteRepositoryImpl
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -9,11 +11,13 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object FirebaseModule {
+object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFireStoreInstance(): FirebaseFirestore {
-        return FirebaseFirestore.getInstance()
+    fun provideNoteRepository(
+        database: FirebaseFirestore
+    ): NoteRepository {
+        return NoteRepositoryImpl(database)
     }
 }

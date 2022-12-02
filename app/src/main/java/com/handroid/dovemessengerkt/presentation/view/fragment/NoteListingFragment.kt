@@ -1,6 +1,7 @@
 package com.handroid.dovemessengerkt.presentation.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.handroid.dovemessengerkt.databinding.FragmentNoteListingBinding
 import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoteListingFragment : Fragment() {
 
     private val binding by lazy {
@@ -28,10 +31,11 @@ class NoteListingFragment : Fragment() {
         with(viewModel) {
             getNotes()
             note.observe(viewLifecycleOwner) {
-
+                it.forEach {
+                    Log.e(LOG_TAG, it.toString())
+                }
             }
         }
-
     }
 
     companion object {
