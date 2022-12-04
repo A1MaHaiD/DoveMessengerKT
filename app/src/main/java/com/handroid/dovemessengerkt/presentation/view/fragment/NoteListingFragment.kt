@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.handroid.dovemessengerkt.databinding.FragmentNoteListingBinding
 import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
+import com.handroid.dovemessengerkt.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,9 +31,19 @@ class NoteListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(viewModel) {
             getNotes()
-            note.observe(viewLifecycleOwner) {
-                it.forEach {
-                    Log.e(LOG_TAG, it.toString())
+            note.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        Log.e(LOG_TAG, "Loading")
+                    }
+                    is UiState.Failure -> {
+                        Log.e(LOG_TAG, state.error.toString())
+                    }
+                    is UiState.Success -> {
+                        state.data.forEach {
+                            Log.e(LOG_TAG, it.toString())
+                        }
+                    }
                 }
             }
         }

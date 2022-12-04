@@ -6,4 +6,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="note_detail_fragment">Note Detail Fragment</string>
     <string name="note_listing_fragment">Note Listing Fragment</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
 </resources>
