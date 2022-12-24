@@ -8,4 +8,7 @@
     <string name="note_listing_fragment">Note Listing Fragment</string>
     <string name="create">Create</string>
     <string name="update">Update</string>
+    <string name="note_id">Note ID</string>
+    <string name="message">Message</string>
+    <string name="droid">Droid</string>
 </resources>

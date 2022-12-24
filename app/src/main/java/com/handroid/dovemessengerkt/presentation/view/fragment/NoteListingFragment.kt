@@ -7,46 +7,79 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.handroid.dovemessengerkt.R
 import com.handroid.dovemessengerkt.databinding.FragmentNoteListingBinding
+import com.handroid.dovemessengerkt.presentation.adapters.NoteListingAdapter
 import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
 import com.handroid.dovemessengerkt.util.UiState
+import com.handroid.dovemessengerkt.util.hide
+import com.handroid.dovemessengerkt.util.show
+import com.handroid.dovemessengerkt.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NoteListingFragment : Fragment() {
 
-    private val binding by lazy {
-        FragmentNoteListingBinding.inflate(layoutInflater)
-    }
+    private var _binding: FragmentNoteListingBinding? = null
+    private val binding: FragmentNoteListingBinding
+        get() = _binding ?: throw RuntimeException("NoteListingFragment == null")
+
     private val viewModel: NoteViewModel by viewModels()
+
+    val adapter by lazy {
+        NoteListingAdapter(
+            onItemClicked = { pos, item ->
+            },
+            onEditClicked = { pos, item ->
+
+            },
+            onDeleteClicked = { pos, item ->
+
+            }
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentNoteListingBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(viewModel) {
-            getNotes()
-            note.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                        Log.e(LOG_TAG, "Loading")
-                    }
-                    is UiState.Failure -> {
-                        Log.e(LOG_TAG, state.error.toString())
-                    }
-                    is UiState.Success -> {
-                        state.data.forEach {
-                            Log.e(LOG_TAG, it.toString())
+        with(binding) {
+            recyclerView.adapter = adapter
+            btn.setOnClickListener {
+                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment)
+            }
+            with(viewModel) {
+                getNotes()
+                note.observe(viewLifecycleOwner) { state ->
+                    when (state) {
+                        is UiState.Loading -> {
+                            progressBar.show()
+                        }
+                        is UiState.Failure -> {
+                            progressBar.hide()
+                            toast(state.error)
+                        }
+                        is UiState.Success -> {
+                            progressBar.hide()
+                            adapter.updateList(state.data.toMutableList())
                         }
                     }
                 }
             }
         }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

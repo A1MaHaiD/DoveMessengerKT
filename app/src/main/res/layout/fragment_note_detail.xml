@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.fragment.NoteDetailFragment">
 
-
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small_16"
         android:layout_marginTop="96dp"
-        android:text="Covid C Message"
+        android:text="Message"
         android:textColor="@color/black"
         android:textSize="@dimen/font_small_16"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +23,7 @@
         android:id="@+id/ed_note"
         android:layout_width="0dp"
         android:layout_height="160dp"
-        android:layout_gravity="start||top"
+        android:layout_gravity="top|start"
         android:layout_marginHorizontal="@dimen/spacing_small_16"
         android:layout_marginTop="@dimen/spacing_normal_28"
         android:background="@drawable/black_rect_bg"
@@ -37,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <RelativeLayout
-        android:id="@+id/button_layout"
+        android:id="@+id/btn_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small_16"
