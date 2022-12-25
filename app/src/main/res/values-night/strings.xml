@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="send">send</string>
-    <string name="todo">todo</string>
+    <string name="user_name">User name</string>
+    <string name="todo">TODO</string>
+    <string name="send">Send</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="note_detail_fragment">Note Detail Fragment</string>
+    <string name="note_listing_fragment">Note Listing Fragment</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
+    <string name="note_id">Note ID</string>
+    <string name="message">Message</string>
 </resources>

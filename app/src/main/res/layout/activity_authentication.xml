@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.AuthenticationActivity">
+    android:layout_height="match_parent">
     <ImageView
         android:src="@drawable/logo_c"
         android:layout_margin="15dp"
@@ -65,7 +64,6 @@
         android:text="Tap To Log In"
         android:layout_gravity="center_horizontal"
         android:clickable="true"
-        android:onClick="toggleLoginMode"
         android:layout_marginTop="8dp"
         android:textSize="20sp"/>
 </LinearLayout>
