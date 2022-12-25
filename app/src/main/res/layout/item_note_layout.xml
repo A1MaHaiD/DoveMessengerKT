@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_small_16"
-            android:text="The Krym is belong Ukraine"
+            android:text=" "
             android:textColor="@color/black"
             android:textSize="@dimen/font_normal_14"
             app:layout_constraintBottom_toBottomOf="@id/note_id"
@@ -43,15 +43,14 @@
             android:id="@+id/msg_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/spacing_small_8"
             android:alpha="0.7"
             android:text="@string/message"
             android:textColor="@color/black"
             android:textSize="@dimen/font_normal_14"
-            app:layout_constraintTop_toBottomOf="@id/note_id"
-            app:layout_constraintStart_toStartOf="@id/note_id"
-            app:layout_constraintEnd_toEndOf="@id/note_id"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/note_id" />
 
         <TextView
             android:id="@+id/msg"
@@ -59,11 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small_16"
             android:layout_marginTop="@dimen/spacing_small_8"
-            android:text="@string/droid"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/font_normal_14"
-            app:layout_constraintEnd_toEndOf="@id/msg_label"
-            app:layout_constraintStart_toStartOf="@id/msg_label"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/msg_label" />
 
         <View

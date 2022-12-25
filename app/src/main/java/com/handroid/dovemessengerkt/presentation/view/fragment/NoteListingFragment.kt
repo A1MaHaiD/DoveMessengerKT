@@ -27,15 +27,13 @@ class NoteListingFragment : Fragment() {
 
     private val viewModel: NoteViewModel by viewModels()
 
-    val adapter by lazy {
+    private val adapter by lazy {
         NoteListingAdapter(
             onItemClicked = { pos, item ->
             },
             onEditClicked = { pos, item ->
-
             },
             onDeleteClicked = { pos, item ->
-
             }
         )
     }
@@ -50,6 +48,7 @@ class NoteListingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(LOG_TAG, "onViewCreated")
         with(binding) {
             recyclerView.adapter = adapter
             btn.setOnClickListener {
@@ -74,7 +73,6 @@ class NoteListingFragment : Fragment() {
                 }
             }
         }
-
     }
 
     override fun onDestroyView() {

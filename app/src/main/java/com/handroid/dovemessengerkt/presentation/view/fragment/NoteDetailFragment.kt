@@ -1,6 +1,7 @@
 package com.handroid.dovemessengerkt.presentation.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class NoteDetailFragment : Fragment() {
     private val binding: FragmentNoteDetailBinding
         get() = _binding ?: throw RuntimeException("NoteDetailFragment == null")
 
-    val viewModel: NoteViewModel by viewModels()
+    private val viewModel: NoteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,22 +47,25 @@ class NoteDetailFragment : Fragment() {
                 )
             }
         }
+        Log.d(LOG_TAG,"onViewCreated")
         viewModel.addNote.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
                     binding.btnProgressBar.show()
+                    binding.btnUpdate.text = ""
                 }
                 is UiState.Failure -> {
                     binding.btnProgressBar.hide()
+                    binding.btnUpdate.text = "Create"
                     toast(state.error)
                 }
                 is UiState.Success -> {
                     binding.btnProgressBar.hide()
-                    toast("Note has been created successfully")
+                    binding.btnUpdate.text = "Create"
+                    toast(state.data)
                 }
             }
         }
-
     }
 
     private fun validation(): Boolean {
