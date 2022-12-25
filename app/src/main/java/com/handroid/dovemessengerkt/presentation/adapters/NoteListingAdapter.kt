@@ -42,7 +42,7 @@ class NoteListingAdapter(
     inner class MyVH(val binding: ItemNoteLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Note) {
             with(binding) {
-                noteId.setText(item.id)
+                noteIdValue.setText(item.id)
                 msg.setText(item.text)
                 edit.setOnClickListener {
                     onEditClicked.invoke(adapterPosition, item)

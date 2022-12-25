@@ -27,22 +27,16 @@ class NoteRepositoryImpl(
                     UiState.Failure(it.localizedMessage)
                 )
             }
-//        //We will get data from firebase
-//        val data = listOf<Note>()
-//
-//        if (data.isNullOrEmpty()) {
-//            return UiState.Failure("Data is Empty")
-//        } else {
-//            return UiState.Success(data)
-//        }
     }
 
     override fun addNote(note: Note, result: (UiState<String>) -> Unit) {
-        database.collection(FireStoreTables.NOTE)
-            .add(note)
+        val document = database.collection(FireStoreTables.NOTE)
+            .document()
+        note.id = document.id
+        document.set(note)
             .addOnSuccessListener {
                 result.invoke(
-                    UiState.Success(it.id)
+                    UiState.Success("Note has been created successfully")
                 )
             }
             .addOnFailureListener {
