@@ -45,13 +45,13 @@ class NoteListingAdapter(
                 noteIdValue.setText(item.id)
                 msg.setText(item.text)
                 edit.setOnClickListener {
-                    onEditClicked.invoke(adapterPosition, item)
+                    onEditClicked.invoke(bindingAdapterPosition, item)
                 }
                 delete.setOnClickListener {
-                    onDeleteClicked.invoke(adapterPosition, item)
+                    onDeleteClicked.invoke(bindingAdapterPosition, item)
                 }
                 itemLayout.setOnClickListener {
-                    onItemClicked.invoke(adapterPosition, item)
+                    onItemClicked.invoke(bindingAdapterPosition, item)
                 }
             }
         }
