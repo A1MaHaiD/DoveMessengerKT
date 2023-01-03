@@ -26,14 +26,29 @@ class NoteListingFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("NoteListingFragment == null")
 
     private val viewModel: NoteViewModel by viewModels()
+    var deletePosition: Int = -1
 
-    private val adapter by lazy {
+    val adapter by lazy {
         NoteListingAdapter(
             onItemClicked = { pos, item ->
+                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
+                    Bundle().apply
+                    {
+                        putString("type", "view")
+                        putParcelable("note", item)
+                    })
             },
             onEditClicked = { pos, item ->
+                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
+                    Bundle().apply
+                    {
+                        putString("type", "edit")
+                        putParcelable("note", item)
+                    })
             },
             onDeleteClicked = { pos, item ->
+                deletePosition = pos
+                viewModel.deleteNote(item)
             }
         )
     }
@@ -49,10 +64,15 @@ class NoteListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(LOG_TAG, "onViewCreated")
-        with(binding) {
+        with(binding){
             recyclerView.adapter = adapter
+            recyclerView.itemAnimator = null
             btn.setOnClickListener {
-                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment)
+                findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment,
+                    Bundle().apply
+                    {
+                        putString("type", "create")
+                    })
             }
             with(viewModel) {
                 getNotes()
@@ -67,7 +87,23 @@ class NoteListingFragment : Fragment() {
                         }
                         is UiState.Success -> {
                             progressBar.hide()
-                            adapter.updateList(state.data.toMutableList())
+                         adapter.updateList(state.data.toMutableList())
+                        }
+                    }
+                }
+                deleteNote.observe(viewLifecycleOwner) { state ->
+                    when (state) {
+                        is UiState.Loading -> {
+                            progressBar.show()
+                        }
+                        is UiState.Failure -> {
+                            progressBar.hide()
+                            toast(state.error)
+                        }
+                        is UiState.Success -> {
+                            progressBar.hide()
+                            toast(state.data)
+                            adapter.removeItem(deletePosition)
                         }
                     }
                 }
