@@ -1,20 +1,22 @@
 package com.handroid.dovemessengerkt.presentation.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.button.MaterialButton
+import com.handroid.dovemessengerkt.R
 import com.handroid.dovemessengerkt.data.model.Note
 import com.handroid.dovemessengerkt.databinding.FragmentNoteDetailBinding
 import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
-import com.handroid.dovemessengerkt.util.UiState
-import com.handroid.dovemessengerkt.util.hide
-import com.handroid.dovemessengerkt.util.show
-import com.handroid.dovemessengerkt.util.toast
+import com.handroid.dovemessengerkt.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -25,8 +27,8 @@ class NoteDetailFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("NoteDetailFragment == null")
 
     private val viewModel: NoteViewModel by viewModels()
-    var isEdit = false
     var objNote: Note? = null
+    var tagsList: MutableList<String> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,97 +41,197 @@ class NoteDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateUI()
-        binding.btnMsg.setOnClickListener {
-            if (isEdit) {
-                updateNote()
-            } else {
-                createNote()
-            }
-        }
+        observer()
     }
 
-    private fun createNote() {
-        if (validation()) {
-            viewModel.addNote(
-                Note(
-                    id = "",
-                    text = binding.edNote.text.toString(),
-                    date = Date()
-                )
-            )
-        }
-        Log.d(LOG_TAG, "createNote")
+    private fun observer() {
         viewModel.addNote.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    binding.btnProgressBar.show()
-                    binding.btnMsg.text = ""
+                    binding.pbNote.show()
                 }
                 is UiState.Failure -> {
-                    binding.btnProgressBar.hide()
-                    binding.btnMsg.text = "Create"
+                    binding.pbNote.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnProgressBar.hide()
-                    binding.btnMsg.text = "Create"
-                    toast(state.data)
+                    binding.pbNote.hide()
+                    toast(state.data.second)
+                    objNote = state.data.first
+                    isMakeEnableUI(false)
+                    binding.ivDone.hide()
+                    binding.ivDelete.show()
+                    binding.ivEdit.show()
                 }
             }
         }
-    }
-
-    private fun updateNote() {
-        if (validation()) {
-            viewModel.updateNote(
-                Note(
-                    id = objNote?.id ?: "",
-                    text = binding.edNote.text.toString(),
-                    date = Date()
-                )
-            )
-        }
-        Log.d(LOG_TAG, "updateNote")
         viewModel.updateNote.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    binding.btnProgressBar.show()
-                    binding.btnMsg.text = ""
+                    binding.pbNote.show()
                 }
                 is UiState.Failure -> {
-                    binding.btnProgressBar.hide()
-                    binding.btnMsg.text = "Update"
+                    binding.pbNote.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnProgressBar.hide()
-                    binding.btnMsg.text = "Update"
+                    binding.pbNote.hide()
                     toast(state.data)
+                    binding.ivEdit.show()
+                    isMakeEnableUI(false)
+                }
+            }
+        }
+        viewModel.deleteNote.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    binding.pbNote.show()
+                }
+                is UiState.Failure -> {
+                    binding.pbNote.hide()
+                    toast(state.error)
+                }
+                is UiState.Success -> {
+                    binding.pbNote.hide()
+                    toast(state.data)
+                    findNavController().navigateUp()
                 }
             }
         }
     }
 
+
     private fun updateUI() {
-        val type = arguments?.getString("type", null)
-        type?.let {
-            when (it) {
-                "view" -> {
-                    isEdit = false
-                    binding.edNote.isEnabled = false
-                    objNote = arguments?.getParcelable("note")
-                    binding.edNote.setText(objNote?.text)
-                    binding.btnMsg.hide()
+        val sdf = SimpleDateFormat("dd MM yyyy . hh:mm a")
+        with(binding) {
+            objNote =
+                arguments?.getParcelable("note")//If user click on the note from listing screen then in that case we pass the object
+            binding.cgTags.layoutParams.height = 40.dpToPx
+            objNote?.let { note ->
+                tvTitle.setText(note.title)
+                tvDate.setText(sdf.format(note.date))
+                tagsList = note.tags
+                addTags(tagsList)
+                etDescription.setText(note.description)
+                ivDone.hide()
+                ivEdit.show()
+                ivDelete.show()
+                isMakeEnableUI(false)
+            } ?: run { //If no note exists then It's mean user want to create a new note
+                tvTitle.setText("")
+                tvDate.setText(sdf.format(Date()))
+                etDescription.setText("")
+                ivDone.hide()
+                ivEdit.hide()
+                ivDelete.hide()
+                isMakeEnableUI(true)
+            }
+            ivBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
+            tvTitle.setOnClickListener {
+                isMakeEnableUI(true)
+            }
+            etDescription.setOnClickListener {
+                isMakeEnableUI(true)
+            }
+            ivDelete.setOnClickListener {
+                objNote?.let { viewModel.deleteNote(it) }
+            }
+            ivAddTag.setOnClickListener {
+                showAddTagDialog()
+            }
+            ivEdit.setOnClickListener {
+                isMakeEnableUI(true)
+                ivDone.show()
+                ivEdit.hide()
+                tvTitle.requestFocus()
+            }
+            ivDone.setOnClickListener {
+                if (validation()) {
+                    if (objNote == null) {
+                        viewModel.addNote(getNote())
+                    } else {
+                        viewModel.updateNote(getNote())
+                    }
                 }
-                "create" -> {
-                    isEdit = false
-                    binding.btnMsg.setText("Create")
+            }
+            tvTitle.doAfterTextChanged {
+                ivDone.show()
+                ivEdit.hide()
+            }
+            etDescription.doAfterTextChanged {
+                ivDone.show()
+                ivEdit.hide()
+            }
+        }
+    }
+
+    private fun getNote(): Note {
+        return Note(
+            id = objNote?.id ?: "",
+            title = binding.tvTitle.text.toString(),
+            description = binding.etDescription.text.toString(),
+            tags = tagsList,
+            date = Date()
+        )
+    }
+
+
+    private fun showAddTagDialog() {
+        val dialog = requireContext().createDialog(R.layout.add_tag_dialog, true)
+        val button = dialog.findViewById<MaterialButton>(R.id.tag_dialog_add)
+        val editText = dialog.findViewById<EditText>(R.id.tag_dialog_et)
+        button.setOnClickListener {
+            if (editText.text.toString().isNullOrEmpty()) {
+                toast("Enter text")
+            } else {
+                val text = editText.text.toString()
+                tagsList.add(text)
+                binding.cgTags.apply {
+                    addChip(text, true) {
+                        tagsList.forEachIndexed { index, tag ->
+                            if (text.equals(tag)) {
+                                tagsList.removeAt(index)
+                                binding.cgTags.removeViewAt(index)
+                            }
+                        }
+                        if (tagsList.size == 0) {
+                            layoutParams.height = 40.dpToPx
+                        }
+                    }
+                    layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 }
-                "edit" -> {
-                    isEdit = true
-                    objNote = arguments?.getParcelable("note")
-                    binding.edNote.setText(objNote?.text)
-                    binding.btnMsg.setText("Update")
+                binding.ivDone.show()
+                binding.ivEdit.hide()
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
+    //Make Ui enable when user want to update or create note otherwise disable Ui if user want to view note
+    private fun isMakeEnableUI(isDisable: Boolean = false) {
+        with(binding) {
+            tvTitle.isEnabled = isDisable
+            tvDate.isEnabled = isDisable
+            cgTags.isEnabled = isDisable
+            ivAddTag.isEnabled = isDisable
+            etDescription.isEnabled = isDisable
+        }
+    }
+
+    private fun addTags(note: MutableList<String>) {
+        if (note.size > 0) {
+            binding.cgTags.apply {
+                removeAllViews()
+                note.forEachIndexed { index, tag ->
+                    addChip(tag, true) {
+                        if (isEnabled) {
+                            note.removeAt(index)
+                            this.removeViewAt(index)
+                        }
+                    }
                 }
             }
         }
@@ -137,9 +239,13 @@ class NoteDetailFragment : Fragment() {
 
     private fun validation(): Boolean {
         var isValid = true
-        if (binding.edNote.text.toString().isEmpty()) {
+        if (binding.tvTitle.text.toString().isNullOrEmpty()) {
             isValid = false
-            toast("Enter message")
+            toast("Title missing")
+        }
+        if (binding.etDescription.text.toString().isNullOrEmpty()) {
+            isValid = false
+            toast("Description missing")
         }
         return isValid
     }

@@ -6,4 +6,6 @@
     <dimen name="spacing_normal_28">28dp</dimen>
     <dimen name="font_normal_14">14sp</dimen>
     <dimen name="spacing_small_8">8dp</dimen>
+    <dimen name="spacing_normal_22">22dp</dimen>
+    <dimen name="corner_size_12">12dp</dimen>
 </resources>

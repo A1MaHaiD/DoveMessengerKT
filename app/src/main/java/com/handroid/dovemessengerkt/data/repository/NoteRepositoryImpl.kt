@@ -1,7 +1,9 @@
 package com.handroid.dovemessengerkt.data.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.handroid.dovemessengerkt.data.model.Note
+import com.handroid.dovemessengerkt.util.FireStoreDocumentField
 import com.handroid.dovemessengerkt.util.FireStoreTables
 import com.handroid.dovemessengerkt.util.UiState
 
@@ -11,6 +13,7 @@ class NoteRepositoryImpl(
 
     override fun getNotes(result: (UiState<List<Note>>) -> Unit) {
         database.collection(FireStoreTables.NOTE)
+            .orderBy(FireStoreDocumentField.DATE, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
                 val notes = arrayListOf<Note>()
@@ -29,14 +32,14 @@ class NoteRepositoryImpl(
             }
     }
 
-    override fun addNote(note: Note, result: (UiState<String>) -> Unit) {
+    override fun addNote(note: Note, result: (UiState<Pair<Note, String>>) -> Unit) {
         val document = database.collection(FireStoreTables.NOTE)
             .document()
         note.id = document.id
         document.set(note)
             .addOnSuccessListener {
                 result.invoke(
-                    UiState.Success("Note has been created successfully")
+                    UiState.Success(Pair(note, "Note has been created successfully"))
                 )
             }
             .addOnFailureListener {

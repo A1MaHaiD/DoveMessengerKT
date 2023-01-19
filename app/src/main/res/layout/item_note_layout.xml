@@ -1,101 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_small_16"
-    android:background="@color/white"
-    app:cardCornerRadius="@dimen/spacing_small_8"
-    app:cardElevation="4dp">
+    android:layout_margin="@dimen/spacing_small_8"
+    android:clickable="true"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/corner_size_12"
+    app:cardElevation="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_small_16"
-        android:paddingBottom="@dimen/spacing_small_8">
+        android:padding="@dimen/spacing_small_8">
 
         <TextView
-            android:id="@+id/note_id"
+            android:id="@+id/tv_date"
+            style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small_16"
-            android:alpha="0.7"
-            android:text="@string/note_id"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_normal_14"
+            android:text="20 APR"
+            android:textColor="@color/black50"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/note_id_value"
+            android:id="@+id/tv_title"
+            style="@style/TittleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small_16"
-            android:text=" "
+            android:layout_marginTop="4dp"
+            android:text="Paradise is behind"
             android:textColor="@color/black"
-            android:textSize="@dimen/font_normal_14"
-            app:layout_constraintBottom_toBottomOf="@id/note_id"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/note_id" />
-
-        <TextView
-            android:id="@+id/msg_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:alpha="0.7"
-            android:text="@string/message"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_normal_14"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/note_id" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
-        <TextView
-            android:id="@+id/msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small_16"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_normal_14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/msg_label" />
-
-        <View
-            android:id="@+id/divider"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_tags"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/spacing_small_16"
-            android:background="#26000000"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small_8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/msg" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-        <ImageView
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/TextStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small_16"
             android:layout_marginTop="@dimen/spacing_small_8"
-            android:src="@drawable/edit_black"
-            app:layout_constraintEnd_toStartOf="@+id/delete"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_small_16"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:src="@drawable/delete_black"
+            android:text="@string/string_desc"
+            android:textColor="@color/black70"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/edit"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cg_tags" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
