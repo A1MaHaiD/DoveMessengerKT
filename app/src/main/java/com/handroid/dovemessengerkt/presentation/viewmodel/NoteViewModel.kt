@@ -12,14 +12,14 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     val repository: NoteRepository
-) : ViewModel() {
+): ViewModel() {
 
     private val _notes = MutableLiveData<UiState<List<Note>>>()
     val note: LiveData<UiState<List<Note>>>
         get() = _notes
 
-    private val _addNote = MutableLiveData<UiState<String>>()
-    val addNote: LiveData<UiState<String>>
+    private val _addNote = MutableLiveData<UiState<Pair<Note,String>>>()
+    val addNote: LiveData<UiState<Pair<Note,String>>>
         get() = _addNote
 
     private val _updateNote = MutableLiveData<UiState<String>>()
@@ -32,29 +32,21 @@ class NoteViewModel @Inject constructor(
 
     fun getNotes() {
         _notes.value = UiState.Loading
-        repository.getNotes {
-            _notes.value = it
-        }
+        repository.getNotes { _notes.value = it }
     }
 
-    fun addNote(note: Note) {
+    fun addNote(note: Note){
         _addNote.value = UiState.Loading
-        repository.addNote(note) {
-            _addNote.value = it
-        }
+        repository.addNote(note) { _addNote.value = it }
     }
 
-    fun updateNote(note: Note) {
+    fun updateNote(note: Note){
         _updateNote.value = UiState.Loading
-        repository.updateNote(note) {
-            _updateNote.value = it
-        }
+        repository.updateNote(note) { _updateNote.value = it }
     }
 
-    fun deleteNote(note: Note) {
+    fun deleteNote(note: Note){
         _deleteNote.value = UiState.Loading
-        repository.deleteNote(note) {
-            _deleteNote.value = it
-        }
+        repository.deleteNote(note) { _deleteNote.value = it }
     }
 }

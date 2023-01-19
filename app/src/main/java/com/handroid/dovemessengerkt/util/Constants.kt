@@ -4,3 +4,7 @@ object FireStoreTables {
 
     val NOTE = "note"
 }
+
+object FireStoreDocumentField {
+    val DATE = "date"
+}
