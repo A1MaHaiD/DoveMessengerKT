@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt.presentation.view.fragment
+package com.handroid.dovemessengerkt.ui.note.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton
 import com.handroid.dovemessengerkt.R
 import com.handroid.dovemessengerkt.data.model.Note
 import com.handroid.dovemessengerkt.databinding.FragmentNoteDetailBinding
-import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
+import com.handroid.dovemessengerkt.ui.note.viewmodel.NoteViewModel
 import com.handroid.dovemessengerkt.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat

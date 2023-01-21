@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.handroid.dovemessengerkt.data.model.Note
 import com.handroid.dovemessengerkt.util.FireStoreDocumentField
-import com.handroid.dovemessengerkt.util.FireStoreTables
+import com.handroid.dovemessengerkt.util.FireStoreCollection
 import com.handroid.dovemessengerkt.util.UiState
 
 class NoteRepositoryImpl(
@@ -12,7 +12,7 @@ class NoteRepositoryImpl(
 ) : NoteRepository {
 
     override fun getNotes(result: (UiState<List<Note>>) -> Unit) {
-        database.collection(FireStoreTables.NOTE)
+        database.collection(FireStoreCollection.NOTE)
             .orderBy(FireStoreDocumentField.DATE, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
@@ -33,7 +33,7 @@ class NoteRepositoryImpl(
     }
 
     override fun addNote(note: Note, result: (UiState<Pair<Note, String>>) -> Unit) {
-        val document = database.collection(FireStoreTables.NOTE)
+        val document = database.collection(FireStoreCollection.NOTE)
             .document()
         note.id = document.id
         document.set(note)
@@ -50,9 +50,10 @@ class NoteRepositoryImpl(
     }
 
     override fun updateNote(note: Note, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreTables.NOTE)
+        val document = database.collection(FireStoreCollection.NOTE)
             .document(note.id)
-        document.set(note)
+        document
+            .set(note)
             .addOnSuccessListener {
                 result.invoke(
                     UiState.Success("Note has been update successfully")
@@ -68,7 +69,7 @@ class NoteRepositoryImpl(
     }
 
     override fun deleteNote(note: Note, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreTables.NOTE)
+        val document = database.collection(FireStoreCollection.NOTE)
             .document(note.id)
         document.delete()
             .addOnSuccessListener {

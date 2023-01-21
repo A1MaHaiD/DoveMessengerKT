@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt.presentation.view
+package com.handroid.dovemessengerkt.ui.note.view
 
 import android.os.Bundle
 import android.util.Log

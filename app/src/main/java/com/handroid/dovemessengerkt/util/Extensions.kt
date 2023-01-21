@@ -1,4 +1,5 @@
 package com.handroid.dovemessengerkt.util
+
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
@@ -67,6 +68,9 @@ fun Context.createDialog(layout: Int, cancelable: Boolean): Dialog {
     dialog.setCancelable(cancelable)
     return dialog
 }
+
+fun String.isValidEmail() =
+    isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 val Int.dpToPx: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()

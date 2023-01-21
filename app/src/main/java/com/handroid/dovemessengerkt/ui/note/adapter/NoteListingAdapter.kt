@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt.presentation.adapters
+package com.handroid.dovemessengerkt.ui.note.adapter
 
 import  android.view.LayoutInflater
 import android.view.ViewGroup
