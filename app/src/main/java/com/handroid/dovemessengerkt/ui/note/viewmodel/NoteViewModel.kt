@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt.presentation.viewmodel
+package com.handroid.dovemessengerkt.ui.note.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

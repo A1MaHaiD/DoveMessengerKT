@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.auth.view.fragment.RegisterFragment">
+
+    <TextView
+        android:id="@+id/registration_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/titillium_web_bold"
+        android:text="Registration"
+        android:textColor="@color/black"
+        android:textSize="@dimen/spacing_normal_22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rules_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/titillium_web_regular"
+        android:text="Note talking app where you save words"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registration_label" />
+
+    <TextView
+        android:id="@+id/tv_first_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small_16"
+        android:layout_marginTop="32dp"
+        android:text="First Name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/spacing_small_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rules_label" />
+
+    <EditText
+        android:id="@+id/et_first_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:background="@drawable/black_white_rect_bg"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web_regular"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_first_label" />
+
+    <TextView
+        android:id="@+id/tv_last_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:text="Last Name"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_first_name" />
+
+    <EditText
+        android:id="@+id/et_last_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_large_36"
+        android:background="@drawable/black_white_rect_bg"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web_regular"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_first_name" />
+
+    <TextView
+        android:id="@+id/tv_job_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:text="Job Title"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_last_name" />
+
+    <EditText
+        android:id="@+id/et_job"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_large_36"
+        android:background="@drawable/black_white_rect_bg"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web_regular"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_last_name" />
+
+    <TextView
+        android:id="@+id/tv_email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:text="Email"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_job" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_large_36"
+        android:background="@drawable/black_white_rect_bg"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web_regular"
+        android:inputType="textEmailAddress"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_job" />
+
+    <TextView
+        android:id="@+id/tv_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:text="Password"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small_16"
+        android:layout_marginTop="@dimen/spacing_large_36"
+        android:background="@drawable/black_white_rect_bg"
+        android:ems="10"
+        android:fontFamily="@font/titillium_web_regular"
+        android:inputType="textPassword"
+        android:textSize="@dimen/font_normal_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
+
+    <RelativeLayout
+        android:id="@+id/rl_register_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large_36"
+        app:layout_constraintEnd_toEndOf="@+id/et_email"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/et_email"
+        app:layout_constraintTop_toBottomOf="@id/et_password">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_rect_bg"
+            android:text="Register"
+            android:textAllCaps="false"
+            android:textAppearance="@style/SubTitleStyle"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pb_register"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/spacing_large_36"
+            android:layout_height="@dimen/spacing_large_36"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/spacing_small_16"
+            android:elevation="10dp"
+            android:indeterminateTint="@color/white"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

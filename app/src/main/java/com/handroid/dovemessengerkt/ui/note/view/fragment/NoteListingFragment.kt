@@ -1,4 +1,4 @@
-package com.handroid.dovemessengerkt.presentation.view.fragment
+package com.handroid.dovemessengerkt.ui.note.view.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.handroid.dovemessengerkt.R
 import com.handroid.dovemessengerkt.databinding.FragmentNoteListingBinding
-import com.handroid.dovemessengerkt.presentation.adapters.NoteListingAdapter
-import com.handroid.dovemessengerkt.presentation.viewmodel.NoteViewModel
+import com.handroid.dovemessengerkt.ui.note.adapter.NoteListingAdapter
+import com.handroid.dovemessengerkt.ui.note.viewmodel.NoteViewModel
 import com.handroid.dovemessengerkt.util.UiState
 import com.handroid.dovemessengerkt.util.hide
 import com.handroid.dovemessengerkt.util.show
@@ -45,7 +45,7 @@ class NoteListingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNoteListingBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentNoteListingBinding.inflate(inflater, container, false)
         return binding.root
     }
 

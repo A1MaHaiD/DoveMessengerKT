@@ -1,9 +1,9 @@
 package com.handroid.dovemessengerkt.domain
 
 data class User(
-    val name: String,
-    val email: String,
-    val id: String,
-    val avatarMockUpResource: Int,
-    val avatarResource: Int
+    var id: String = "",
+    val first_name: String = "",
+    val last_name: String = "",
+    val job_title: String = "",
+    val email: String = ""
 )

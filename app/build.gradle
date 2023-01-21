@@ -56,7 +56,10 @@ dependencies {
     //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
     //Firebase
+//    implementation 'com.google.firebase:firebase-firestore:24.1.2'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
+//    implementation 'com.google.firebase:firebase-auth-ktx:19.2.0'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
 //    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
 //    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
 //    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
