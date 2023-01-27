@@ -8,4 +8,3 @@ data class AwesomeMessage(
     val imageUrl: String,
     val isMine: Boolean
 )
-
