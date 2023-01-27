@@ -108,7 +108,7 @@ class NoteDetailFragment : Fragment() {
                 arguments?.getParcelable("note")//If user click on the note from listing screen then in that case we pass the object
             binding.cgTags.layoutParams.height = 40.dpToPx
             objNote?.let { note ->
-                tvTitle.setText(note.title)
+                etTitle.setText(note.title)
                 tvDate.setText(sdf.format(note.date))
                 tagsList = note.tags
                 addTags(tagsList)
@@ -118,7 +118,7 @@ class NoteDetailFragment : Fragment() {
                 ivDelete.show()
                 isMakeEnableUI(false)
             } ?: run { //If no note exists then It's mean user want to create a new note
-                tvTitle.setText("")
+                etTitle.setText("")
                 tvDate.setText(sdf.format(Date()))
                 etDescription.setText("")
                 ivDone.hide()
@@ -129,7 +129,7 @@ class NoteDetailFragment : Fragment() {
             ivBack.setOnClickListener {
                 findNavController().navigateUp()
             }
-            tvTitle.setOnClickListener {
+            etTitle.setOnClickListener {
                 isMakeEnableUI(true)
             }
             etDescription.setOnClickListener {
@@ -145,7 +145,7 @@ class NoteDetailFragment : Fragment() {
                 isMakeEnableUI(true)
                 ivDone.show()
                 ivEdit.hide()
-                tvTitle.requestFocus()
+                etTitle.requestFocus()
             }
             ivDone.setOnClickListener {
                 if (validation()) {
@@ -156,7 +156,7 @@ class NoteDetailFragment : Fragment() {
                     }
                 }
             }
-            tvTitle.doAfterTextChanged {
+            etTitle.doAfterTextChanged {
                 ivDone.show()
                 ivEdit.hide()
             }
@@ -170,7 +170,7 @@ class NoteDetailFragment : Fragment() {
     private fun getNote(): Note {
         return Note(
             id = objNote?.id ?: "",
-            title = binding.tvTitle.text.toString(),
+            title = binding.etTitle.text.toString(),
             description = binding.etDescription.text.toString(),
             tags = tagsList,
             date = Date()
@@ -213,7 +213,7 @@ class NoteDetailFragment : Fragment() {
     //Make Ui enable when user want to update or create note otherwise disable Ui if user want to view note
     private fun isMakeEnableUI(isDisable: Boolean = false) {
         with(binding) {
-            tvTitle.isEnabled = isDisable
+            etTitle.isEnabled = isDisable
             tvDate.isEnabled = isDisable
             cgTags.isEnabled = isDisable
             ivAddTag.isEnabled = isDisable
@@ -239,7 +239,7 @@ class NoteDetailFragment : Fragment() {
 
     private fun validation(): Boolean {
         var isValid = true
-        if (binding.tvTitle.text.toString().isNullOrEmpty()) {
+        if (binding.etTitle.text.toString().isNullOrEmpty()) {
             isValid = false
             toast("Title missing")
         }

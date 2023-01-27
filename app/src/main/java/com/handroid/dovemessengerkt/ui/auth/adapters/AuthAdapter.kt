@@ -44,7 +44,7 @@ class AuthAdapter(
     inner class MyVH(val binding: ItemNoteLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Note) {
             with(binding) {
-                tvTitle.setText(item.title)
+                etTitle.setText(item.title)
                 tvDate.setText(sdf.format(item.date))
                 cgTags.apply {
                     if (item.tags.isNullOrEmpty()) {
