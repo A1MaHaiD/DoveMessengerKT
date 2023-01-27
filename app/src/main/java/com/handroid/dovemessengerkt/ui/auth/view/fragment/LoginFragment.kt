@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
             }
         }
         binding.tvForgotPassword.setOnClickListener {
-
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
         binding.tvAskRegister.setOnClickListener {
             findNavController().navigate(
