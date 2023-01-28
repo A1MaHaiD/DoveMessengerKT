@@ -66,6 +66,8 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     //LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
     //Fragment
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
     //Jetpack Navigation Component
