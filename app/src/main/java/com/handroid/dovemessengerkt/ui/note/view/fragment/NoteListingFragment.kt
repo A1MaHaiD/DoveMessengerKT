@@ -5,15 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.ActionMenuItemView.PopupCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.handroid.dovemessengerkt.R
 import com.handroid.dovemessengerkt.databinding.FragmentNoteListingBinding
+import com.handroid.dovemessengerkt.ui.auth.viewmodel.AuthViewModel
 import com.handroid.dovemessengerkt.ui.note.adapter.NoteListingAdapter
 import com.handroid.dovemessengerkt.ui.note.viewmodel.NoteViewModel
 import com.handroid.dovemessengerkt.util.UiState
@@ -29,7 +28,9 @@ class NoteListingFragment : Fragment() {
     private val binding: FragmentNoteListingBinding
         get() = _binding ?: throw RuntimeException("NoteListingFragment == null")
 
-    private val viewModel: NoteViewModel by viewModels()
+    private val noteViewModel: NoteViewModel by viewModels()
+
+    private val authViewModel: AuthViewModel by viewModels()
 
     val adapter by lazy {
         NoteListingAdapter(
@@ -53,28 +54,38 @@ class NoteListingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observer()
         Log.d(LOG_TAG, "onViewCreated")
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         with(binding) {
-            recyclerView.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            recyclerView.layoutManager = staggeredGridLayoutManager
             recyclerView.adapter = adapter
             btn.setOnClickListener {
                 findNavController().navigate(R.id.action_noteListingFragment_to_noteDetailFragment)
             }
-            with(viewModel) {
-                getNotes()
-                note.observe(viewLifecycleOwner) { state ->
-                    when (state) {
-                        is UiState.Loading -> {
-                            progressBar.show()
-                        }
-                        is UiState.Failure -> {
-                            progressBar.hide()
-                            toast(state.error)
-                        }
-                        is UiState.Success -> {
-                            progressBar.hide()
-                            adapter.updateList(state.data.toMutableList())
-                        }
+            ivLogout.setOnClickListener {
+                authViewModel.logout {
+                    findNavController().navigate(R.id.action_noteListingFragment_to_loginFragment)
+                }
+            }
+        }
+        noteViewModel.getNotes()
+    }
+
+    private fun observer() {
+        with(binding){
+            noteViewModel.note.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        progressBar.show()
+                    }
+                    is UiState.Failure -> {
+                        progressBar.hide()
+                        toast(state.error)
+                    }
+                    is UiState.Success -> {
+                        progressBar.hide()
+                        adapter.updateList(state.data.toMutableList())
                     }
                 }
             }

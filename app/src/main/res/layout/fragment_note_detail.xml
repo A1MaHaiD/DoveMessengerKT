@@ -169,8 +169,9 @@
                 android:id="@+id/cg_tags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small_8"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tv_date"
+                app:layout_constraintStart_toEndOf="@+id/ll_add_tag"
                 app:layout_constraintTop_toBottomOf="@+id/space">
 
                 <include
