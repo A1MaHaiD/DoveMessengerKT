@@ -22,6 +22,16 @@ class LoginFragment : Fragment() {
 
     private val viewModel: AuthViewModel by viewModels()
 
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession { user ->
+            if (user != null) {
+            findNavController().navigate(R.id.action_loginFragment_to_noteListingFragment)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

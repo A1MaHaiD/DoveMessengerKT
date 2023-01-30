@@ -28,12 +28,11 @@ class AuthRepositoryImpl(
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    user.id = it.result.user?.uid ?: ""
                     updateUserInfo(user) { state ->
                         when (state) {
                             is UiState.Success -> {
-                                storeSession(
-                                    id = it.result.user?.uid ?: ""
-                                ) {
+                                storeSession(id = it.result.user?.uid ?: "") {
                                     if (it == null) {
                                         result.invoke(
                                             UiState.Failure(
@@ -52,7 +51,6 @@ class AuthRepositoryImpl(
                             }
                         }
                     }
-
                 } else {
                     try {
                         throw it.exception ?: java.lang.Exception("Invalid authentication")
@@ -91,8 +89,7 @@ class AuthRepositoryImpl(
     }
 
     override fun updateUserInfo(user: User, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreCollection.USER).document()
-        user.id = document.id
+        val document = database.collection(FireStoreCollection.USER).document(user.id)
         document
             .set(user)
             .addOnSuccessListener {
@@ -145,10 +142,21 @@ class AuthRepositoryImpl(
 
     override fun logout(result: () -> Unit) {
         auth.signOut()
+        appPreferences.edit().putString(USER_SESSION, null).apply()
         result.invoke()
     }
 
-    private fun storeSession(id: String, result: (User?) -> Unit) {
+    override fun getSession(result: (User?) -> Unit) {
+        val user_str = appPreferences.getString(USER_SESSION, null)
+        if (user_str == null) {
+            result.invoke(null)
+        } else {
+            val user = gson.fromJson(user_str, User::class.java)
+            result.invoke(user)
+        }
+    }
+
+    override fun storeSession(id: String, result: (User?) -> Unit) {
         database.collection(FireStoreCollection.USER).document(id)
             .get()
             .addOnCompleteListener {
